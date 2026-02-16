@@ -17,8 +17,10 @@ $(PROJECTS):
 	@for file in $(SRC_DIR)/$@/*.c; do \
 		base=$$(basename $$file .c); \
 		echo "Compilando $$base..."; \
+		$(CC) -fpreprocessed -dD -E $$file -o $(OUT_DIR)/$@/preprocessed/$$base-macro-resolved.i; \
 		$(CC) -S $$file -o $(OUT_DIR)/$@/assembly/$$base.s; \
 		$(CC) -E $$file -o $(OUT_DIR)/$@/preprocessed/$$base.i; \
+		$(CC) -C -E $$file -o $(OUT_DIR)/$@/preprocessed/$$base-with-comments.i; \
 		$(CC) $$file -o $(OUT_DIR)/$@/bin/$$base; \
 	done
 
